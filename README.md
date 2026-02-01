@@ -139,7 +139,6 @@ def calculate_engagement(self, message):
 git clone https://github.com/Anastasia-0-Iva/Telegram_Channel_Intelligence_Platform.git
 cd Telegram_Channel_Intelligence_Platform
 ```
-
 ***Создание виртуального окружения:***
 ```
 # Windows
