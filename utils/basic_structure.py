@@ -1,7 +1,6 @@
 from telethon.tl.functions.channels import GetFullChannelRequest
 from authorisation import client
 from datetime import datetime, timedelta, timezone
-#  @nordfilnews
 
 class ChannelAnalyzer:
     def __init__(self, client):
@@ -79,7 +78,7 @@ class ChannelAnalyzer:
 
             if content_type not in type_stats:
                 type_stats[content_type] = {
-                    'engagements': [],  # Все значения ER для этого типа
+                    'engagements': [],  #Все значения ER для этого типа
                     'total_posts': 0,
                     'total_views': 0
                 }
@@ -142,7 +141,7 @@ class ChannelAnalyzer:
 
         return best_hour, round(best_avg_engagement, 2)
 
-    # Высчитываем лучшее кол-во текста для поста
+    #Высчитываем лучшее кол-во текста для поста
     def analyze_best_txt(self, data):
         length_stats = {}
 
@@ -170,7 +169,6 @@ class ChannelAnalyzer:
                 best_length = length
 
         return best_length, round(best_avg_engagement, 2)
-#client
 
 #ВЫВОД
 analyzer = ChannelAnalyzer(client)
@@ -201,7 +199,7 @@ async def main():
     start_date = datetime.now(timezone.utc) - timedelta(days=days-1)
     print(f"Анализ за последние {days} дней (с {start_date.strftime('%d.%m.%Y')})")
 
-    # Получаем информацию о канале (подписчики)
+    #Получаем информацию о канале (подписчики)
     try:
         entity = await client.get_entity(channel)
         full_info = await client(GetFullChannelRequest(entity))
@@ -209,7 +207,7 @@ async def main():
         print(f"\nАнализ канала: {channel}")
         print(f"Подписчиков: {subscribers:,}")
     except Exception as e:
-        print(f"\n⚠Не удалось получить данные о подписчиках: {e}")
+        print(f"\nНе удалось получить данные о подписчиках: {e}")
         subscribers = None
 
     stats = await analyzer.get_stats(channel, limit=200, start_date=start_date)
@@ -228,7 +226,7 @@ async def main():
 
     print("\nРЕКОМЕНДАЦИИ:")
 
-    # Тип контента
+    #Тип контента
     recommendations = analyzer.analyze_content_preference(stats)
     if recommendations:
         best = recommendations[0]
@@ -237,14 +235,14 @@ async def main():
         print(f"- Средние просмотры: {best['avg_views']:.0f}")
         print(f"- Рекомендация: делайте больше контента типа '{best['type']}'!")
 
-    # Лучшее время
+    #Лучшее время
     best_hour, best_engagement = analyzer.analyze_best_time(stats)
     if best_hour is not None:
         print(f"\nЛучшее время для публикации: {best_hour}:00")
         print(f"- Вовлечённость в это время: {best_engagement}%")
         print(f"- Рекомендуемый интервал: {best_hour}:00-{best_hour + 1}:00")
 
-    # Длина текста
+    #Длина текста
     best_length, best_engagement_txt = analyzer.analyze_best_txt(stats)
     if best_length is not None:
         print(f"\nОптимальная длина текста: {best_length} символов")
@@ -252,7 +250,7 @@ async def main():
         print(f"- Рекомендация: старайтесь укладываться в ~{best_length} знаков")
 
     if subscribers:
-        # Рассчитываем среднюю охватность
+        #Рассчитываем среднюю охватность
         avg_views = sum(p['views'] for p in stats) / len(stats)
         reach_percent = (avg_views / subscribers) * 100
         print(f"\nОХВАТ: {avg_views:.0f} просмотров в среднем")
