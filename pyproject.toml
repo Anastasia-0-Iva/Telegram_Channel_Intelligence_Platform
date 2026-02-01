@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "telegram-channel-analyzer"
+version = "1.0.0"
+description = "Professional Telegram channel analytics platform"
+authors = ["Anastasia Iva <Vatson.1604@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+telethon = "^1.34.0"
+nest-asyncio = "^1.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
